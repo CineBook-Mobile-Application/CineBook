@@ -40,8 +40,8 @@ class _CinemaMapScreenState extends State<CinemaMapScreen> {
         title: const Text('Nearby Cinemas'),
         backgroundColor: AppColors.primary,
       ),
-      body: StreamBuilder<List<Cinema>>(
-        stream: _db.getCinemasStream(),
+      body: FutureBuilder<List<Cinema>>(
+        future: _db.getCinemas(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error loading map data: ${snapshot.error}'));

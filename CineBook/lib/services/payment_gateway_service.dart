@@ -37,8 +37,8 @@ class PaymentGatewayService {
       timestamp: DateTime.now(),
     );
 
-    // 5. Store encrypted record securely in Database
-    await DatabaseService().savePayment(payment);
+    // 5. Store encrypted record securely in Database (Now handled atomically by processCheckout)
+    // Removed direct savePayment call to support Transaction batching.
     
     return payment;
   }

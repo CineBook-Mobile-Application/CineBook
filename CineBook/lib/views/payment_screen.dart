@@ -109,7 +109,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       // 2. Process secure transaction through Mock Payment Gateway
       final paymentService = PaymentGatewayService();
-      await paymentService.processPayment(
+      final payment = await paymentService.processPayment(
         ticketId: ticketRef.id,
         userId: userId,
         cardNumber: _cardNumberController.text,
@@ -119,8 +119,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         amount: totalPrice.toDouble(),
       );
 
-      // 3. Insert ticket into Firebase database only on bank success!
-      await DatabaseService().bookTicket(ticket);
+      // 3. Insert ticket and payment atomically into Firebase database!
+      await DatabaseService().processCheckout(ticket, payment);
 
       if (mounted) {
         Navigator.pop(context); // remove loading dialog
