@@ -4,6 +4,11 @@ import 'database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PaymentGatewayService {
+  // Singleton pattern
+  PaymentGatewayService._internal();
+  static final PaymentGatewayService _instance = PaymentGatewayService._internal();
+  factory PaymentGatewayService() => _instance;
+
   Future<Payment> processPayment({
     required String ticketId,
     required String userId,

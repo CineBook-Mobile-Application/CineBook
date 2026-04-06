@@ -2,6 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/core_models.dart';
 
 class DatabaseService {
+  // Singleton pattern
+  DatabaseService._internal();
+  static final DatabaseService _instance = DatabaseService._internal();
+  factory DatabaseService() => _instance;
+
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // Fetch movies stream
