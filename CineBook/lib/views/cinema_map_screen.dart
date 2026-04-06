@@ -18,6 +18,7 @@ class _CinemaMapScreenState extends State<CinemaMapScreen> {
   
   // Center roughly around Colombo, or the target cinema if provided!
   late LatLng _colomboCenter;
+  late Future<List<Cinema>> _cinemasFuture;
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _CinemaMapScreenState extends State<CinemaMapScreen> {
     } else {
       _colomboCenter = const LatLng(6.9271, 79.8612);
     }
+    _cinemasFuture = _db.getCinemas();
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -41,7 +43,7 @@ class _CinemaMapScreenState extends State<CinemaMapScreen> {
         backgroundColor: AppColors.primary,
       ),
       body: FutureBuilder<List<Cinema>>(
-        future: _db.getCinemas(),
+        future: _cinemasFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error loading map data: ${snapshot.error}'));
