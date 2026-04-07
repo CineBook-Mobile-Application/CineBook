@@ -2,6 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
+  // Singleton pattern
+  AuthService._internal();
+  static final AuthService _instance = AuthService._internal();
+  factory AuthService() => _instance;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 

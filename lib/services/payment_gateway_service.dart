@@ -1,9 +1,15 @@
+s
 import 'encryption_service.dart';
 import '../models/core_models.dart';
 import 'database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PaymentGatewayService {
+  // Singleton pattern
+  PaymentGatewayService._internal();
+  static final PaymentGatewayService _instance = PaymentGatewayService._internal();
+  factory PaymentGatewayService() => _instance;
+
   Future<Payment> processPayment({
     required String ticketId,
     required String userId,
@@ -37,8 +43,8 @@ class PaymentGatewayService {
       timestamp: DateTime.now(),
     );
 
-    // 5. Store encrypted record securely in Database
-    await DatabaseService().savePayment(payment);
+    // 5. Store encrypted record securely in Database (Now handled atomically by processCheckout)
+    // Removed direct savePayment call to support Transaction batching.
     
     return payment;
   }

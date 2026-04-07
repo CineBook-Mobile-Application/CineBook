@@ -217,6 +217,9 @@ class Payment {
   final String id;
   final String ticketId;
   final String userId;
+  final String authorName;
+  final String date;
+  final String time;
   final double amount;
   final String status;
   final String encryptedCardData;
@@ -226,6 +229,9 @@ class Payment {
     required this.id,
     required this.ticketId,
     required this.userId,
+    required this.authorName,
+    required this.date,
+    required this.time,
     required this.amount,
     required this.status,
     required this.encryptedCardData,
@@ -242,6 +248,9 @@ class Payment {
       id: docId,
       ticketId: data['ticketId'] ?? '',
       userId: data['userId'] ?? '',
+      authorName: data['authorName'] ?? '',
+      date: data['date'] ?? '',
+      time: data['time'] ?? '',
       amount: (data['amount'] ?? 0.0).toDouble(),
       status: data['status'] ?? 'Pending',
       encryptedCardData: data['encryptedCardData'] ?? '',
@@ -253,6 +262,9 @@ class Payment {
     return {
       'ticketId': ticketId,
       'userId': userId,
+      'authorName': authorName,
+      'date': date,
+      'time': time,
       'amount': amount,
       'status': status,
       'encryptedCardData': encryptedCardData,

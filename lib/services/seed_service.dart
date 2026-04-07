@@ -164,15 +164,18 @@ class SeedService {
       ),
     ];
 
-    // Write movies
+    // Write movies using Batched Writes
+    final batch = _db.batch();
     for (var movie in movies) {
-      await _db.collection('movies').doc(movie.id).set(movie.toMap());
+      batch.set(_db.collection('movies').doc(movie.id), movie.toMap());
     }
 
-    // Write cinemas
+    // Write cinemas using Batched Writes
     for (var cinema in cinemas) {
-      await _db.collection('cinemas').doc(cinema.id).set(cinema.toMap());
+      batch.set(_db.collection('cinemas').doc(cinema.id), cinema.toMap());
     }
+
+    await batch.commit();
 
     print('Database successfully seeded!');
   }

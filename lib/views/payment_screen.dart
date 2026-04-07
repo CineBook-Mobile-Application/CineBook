@@ -150,13 +150,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final selectedSeats = widget.checkoutData['selectedSeats'] as List<String>;
     final totalAmount = selectedSeats.length * showtime.price;
 
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        title: const Text('Complete Payment', style: TextStyle(color: AppColors.textPrimary)),
-        backgroundColor: AppColors.background,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        title: const Text('Complete Payment'),
+        backgroundColor: colorScheme.surface,
       ),
       body: Center(
         child: ConstrainedBox(
@@ -191,6 +190,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildPaymentForm() {
+    final colorScheme = Theme.of(context).colorScheme;
     return Form(
       key: _formKey,
       child: Column(
@@ -200,11 +200,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
-                child: const Icon(Icons.fast_forward, color: Colors.white, size: 20),
+                decoration: BoxDecoration(color: colorScheme.primaryContainer, shape: BoxShape.circle),
+                child: Icon(Icons.fast_forward, color: colorScheme.onPrimaryContainer, size: 20),
               ),
               const SizedBox(width: 12),
-              const Text('CinePay Gateway', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+              Text('CinePay Gateway', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: colorScheme.onSurface)),
             ],
           ),
           const SizedBox(height: 32),
@@ -268,14 +268,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
           SizedBox(
             width: double.infinity,
             height: 56,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 elevation: 4,
               ),
               onPressed: _processFinalPayment,
-              child: const Text('Pay Now', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+              child: const Text('Pay Now', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -294,44 +293,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
       TextInputType? keyboardType,
     }
   ) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppColors.textPrimary)),
+        Text(label, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: colorScheme.onSurface)),
         const SizedBox(height: 8),
         TextFormField(
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
-          style: const TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: colorScheme.onSurface),
           validator: validator,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: Colors.grey.shade400),
-            prefixIcon: icon != null ? Icon(icon, color: AppColors.primary) : null,
-            filled: true,
-            fillColor: AppColors.cardColor,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.red, width: 2),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.red, width: 2),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.primary, width: 2),
-            ),
+            prefixIcon: icon != null ? Icon(icon, color: colorScheme.primary) : null,
           ),
         ),
       ],
@@ -339,11 +315,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildOrderSummary(double totalAmount) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(24),
+        boxShadow: [BoxShadow(color: colorScheme.shadow.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -354,33 +332,33 @@ class _PaymentScreenState extends State<PaymentScreen> {
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Company', style: TextStyle(color: AppColors.textSecondary)),
-              Text('CineBook Cinemas', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            children: [
+              Text('Company', style: TextStyle(color: colorScheme.onSurfaceVariant)),
+              Text('CineBook Cinemas', style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.onSurface)),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Service Fee', style: TextStyle(color: AppColors.textSecondary)),
-              Text('LKR 0.00', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            children: [
+              Text('Service Fee', style: TextStyle(color: colorScheme.onSurfaceVariant)),
+              Text('LKR 0.00', style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.onSurface)),
             ],
           ),
           const SizedBox(height: 24),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.background,
+              color: colorScheme.surfaceVariant,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('You have to Pay', style: TextStyle(fontSize: 16, color: AppColors.textSecondary)),
+                Text('You have to Pay', style: TextStyle(fontSize: 16, color: colorScheme.onSurfaceVariant)),
                 Text(
                   'LKR ${totalAmount.toInt()}',
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                 ),
               ],
             ),
@@ -390,22 +368,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  // Virtual Card dynamically updates using State Variables
   Widget _buildVirtualCard() {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       width: double.infinity,
       height: 190,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)], 
+        gradient: LinearGradient(
+          colors: [colorScheme.primary, colorScheme.tertiary], 
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.4),
+            color: colorScheme.shadow.withOpacity(0.15),
             blurRadius: 16,
             offset: const Offset(0, 8),
           )
@@ -424,7 +402,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           Text(
             _displayCardNumber,
-            style: const TextStyle(color: Colors.white, fontSize: 18, letterSpacing: 2, fontFamily: 'Courier'),
+            style: TextStyle(color: colorScheme.onPrimary, fontSize: 18, letterSpacing: 2, fontFamily: 'Courier'),
             overflow: TextOverflow.ellipsis,
           ),
           Row(
@@ -433,15 +411,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Card Holder', style: TextStyle(color: Colors.white54, fontSize: 10)),
-                  Text(_displayName, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                  Text('Card Holder', style: TextStyle(color: colorScheme.onPrimary.withOpacity(0.7), fontSize: 10)),
+                  Text(_displayName, style: TextStyle(color: colorScheme.onPrimary, fontSize: 14, fontWeight: FontWeight.bold)),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Expires', style: TextStyle(color: Colors.white54, fontSize: 10)),
-                  Text(_displayExpiry, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                  Text('Expires', style: TextStyle(color: colorScheme.onPrimary.withOpacity(0.7), fontSize: 10)),
+                  Text(_displayExpiry, style: TextStyle(color: colorScheme.onPrimary, fontSize: 14, fontWeight: FontWeight.bold)),
                 ],
               ),
             ],
