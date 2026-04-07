@@ -8,7 +8,14 @@ class Movie {
   final double rating;
   final String posterUrl;
   final String synopsis;
+  final String director;
+  final List<Map<String, String>> cast;
+  final String language;
+  final String ratingText;
   final bool isNowShowing;
+  final String trailerImageUrl;
+  final String youtubeVideoId;
+
 
   Movie({
     required this.id,
@@ -18,7 +25,13 @@ class Movie {
     required this.rating,
     required this.posterUrl,
     required this.synopsis,
+    required this.director,
+    required this.cast,
+    required this.language,
+    required this.ratingText,
     required this.isNowShowing,
+    this.trailerImageUrl = '',
+    this.youtubeVideoId = '',
   });
 
   factory Movie.fromFirestore(DocumentSnapshot doc) {
@@ -35,7 +48,14 @@ class Movie {
       rating: (data['rating'] ?? 0.0).toDouble(),
       posterUrl: data['posterUrl'] ?? '',
       synopsis: data['synopsis'] ?? '',
+      director: data['director'] ?? 'Unknown Director',
+      cast: List<Map<String, String>>.from(
+          (data['cast'] as List? ?? []).map((e) => Map<String, String>.from(e))),
+      language: data['language'] ?? 'English',
+      ratingText: data['ratingText'] ?? 'G',
       isNowShowing: data['isNowShowing'] ?? false,
+      trailerImageUrl: data['trailerImageUrl'] ?? '',
+      youtubeVideoId: data['youtubeVideoId'] ?? '',
     );
   }
 
@@ -47,7 +67,13 @@ class Movie {
       'rating': rating,
       'posterUrl': posterUrl,
       'synopsis': synopsis,
+      'director': director,
+      'cast': cast,
+      'language': language,
+      'ratingText': ratingText,
       'isNowShowing': isNowShowing,
+      'trailerImageUrl': trailerImageUrl,
+      'youtubeVideoId': youtubeVideoId,
     };
   }
 }
@@ -217,6 +243,9 @@ class Payment {
   final String id;
   final String ticketId;
   final String userId;
+  final String authorName;
+  final String date;
+  final String time;
   final double amount;
   final String status;
   final String encryptedCardData;
@@ -226,6 +255,9 @@ class Payment {
     required this.id,
     required this.ticketId,
     required this.userId,
+    required this.authorName,
+    required this.date,
+    required this.time,
     required this.amount,
     required this.status,
     required this.encryptedCardData,
@@ -242,6 +274,9 @@ class Payment {
       id: docId,
       ticketId: data['ticketId'] ?? '',
       userId: data['userId'] ?? '',
+      authorName: data['authorName'] ?? '',
+      date: data['date'] ?? '',
+      time: data['time'] ?? '',
       amount: (data['amount'] ?? 0.0).toDouble(),
       status: data['status'] ?? 'Pending',
       encryptedCardData: data['encryptedCardData'] ?? '',
@@ -253,6 +288,9 @@ class Payment {
     return {
       'ticketId': ticketId,
       'userId': userId,
+      'authorName': authorName,
+      'date': date,
+      'time': time,
       'amount': amount,
       'status': status,
       'encryptedCardData': encryptedCardData,

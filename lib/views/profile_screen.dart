@@ -44,13 +44,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        title: const Text('My Profile', style: TextStyle(color: AppColors.textPrimary)),
-        backgroundColor: AppColors.background,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        title: const Text('My Profile'),
+        backgroundColor: colorScheme.surface,
       ),
       body: _isLoading 
         ? const Center(child: CircularProgressIndicator()) 
@@ -66,21 +65,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 32),
                     CircleAvatar(
                       radius: 50,
-                      backgroundColor: AppColors.primary,
+                      backgroundColor: colorScheme.primaryContainer,
                       child: Text(
                         _userProfile!.fullName.isNotEmpty ? _userProfile!.fullName[0].toUpperCase() : 'U',
-                        style: const TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 40, color: colorScheme.onPrimaryContainer, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(height: 24),
                     Text(
                       _userProfile!.fullName,
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: colorScheme.onBackground),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       _userProfile!.email,
-                      style: const TextStyle(fontSize: 16, color: AppColors.textSecondary),
+                      style: TextStyle(fontSize: 16, color: colorScheme.onSurfaceVariant),
                     ),
                     const SizedBox(height: 48),
                     _buildProfileItem(Icons.phone, 'Phone Number', _userProfile!.phone.isNotEmpty ? _userProfile!.phone : 'Not provided'),
@@ -113,32 +112,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildProfileItem(IconData icon, String title, String subtitle) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.cardColor,
-        borderRadius: BorderRadius.circular(16),
+    final colorScheme = Theme.of(context).colorScheme;
+    return ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(color: colorScheme.primaryContainer, shape: BoxShape.circle),
+        child: Icon(icon, color: colorScheme.onPrimaryContainer),
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), shape: BoxShape.circle),
-            child: Icon(icon, color: AppColors.primary),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(color: AppColors.textSecondary, fontSize: 14)),
-                const SizedBox(height: 4),
-                Text(subtitle, style: const TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
-              ],
-            ),
-          ),
-        ],
-      ),
+      title: Text(title, style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 14)),
+      subtitle: Text(subtitle, style: TextStyle(color: colorScheme.onSurface, fontSize: 16, fontWeight: FontWeight.w600)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      tileColor: colorScheme.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     );
   }
 }

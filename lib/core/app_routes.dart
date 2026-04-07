@@ -12,6 +12,7 @@ import '../views/ticket_details_screen.dart';
 import '../views/payment_screen.dart';
 import '../views/profile_screen.dart';
 import '../views/ar_view_screen.dart';
+import '../views/cinema_map_screen.dart';
 import '../models/core_models.dart';
 
 class AppRoutes {
@@ -88,6 +89,13 @@ class AppRoutes {
         builder: (context, state) {
           final data = state.extra as Map<String, dynamic>?;
           return ARViewScreen(data: data);
+        },
+      ),
+      GoRoute(
+        path: '/cinema-map',
+        builder: (context, state) {
+          final targetCinema = state.extra as Cinema?;
+          return CinemaMapScreen(targetCinema: targetCinema);
         },
       ),
     ],

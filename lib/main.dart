@@ -34,8 +34,32 @@ class CineBookApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'CineBook',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
+        theme: AppTheme.lightTheme.copyWith(
+          platform: TargetPlatform.android,
+        ),
         routerConfig: AppRoutes.router,
+        builder: (context, child) {
+          return Container(
+            color: Colors.grey.shade900,
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 430),
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 24,
+                      spreadRadius: 8,
+                    ),
+                  ],
+                ),
+                child: ClipRect(
+                  child: child,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
