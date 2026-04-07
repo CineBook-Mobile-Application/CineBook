@@ -7,6 +7,7 @@ import '../core/app_colors.dart';
 import '../models/core_models.dart';
 import '../services/database_service.dart';
 import '../services/payment_gateway_service.dart';
+import 'payment_widgets.dart';
 
 class PaymentScreen extends StatefulWidget {
   final Map<String, dynamic> checkoutData;
@@ -111,7 +112,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       // 2. Process secure transaction for the initiator's share
       final paymentService = PaymentGatewayService();
-      await paymentService.processPayment(
+      final payment = await paymentService.processPayment(
         ticketId: ticketRef.id,
         userId: userId,
         cardNumber: _cardNumberController.text,
@@ -121,8 +122,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         amount: shareAmount.toDouble(),
       );
 
-      // 3. Insert ticket into Firebase database only on bank success!
-      await DatabaseService().bookTicket(ticket);
+      // 3. Insert ticket and payment atomically into Firebase database!
+      await DatabaseService().processCheckout(ticket, payment);
 
       if (mounted) {
         Navigator.pop(context); // remove loading dialog
@@ -190,13 +191,35 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     children: [
                       Expanded(flex: 3, child: _buildPaymentForm()),
                       const SizedBox(width: 48),
+<<<<<<< HEAD
                       Expanded(flex: 2, child: _buildOrderSummary(shareAmount)),
+=======
+                      Expanded(flex: 2, child: OrderSummaryWidget(
+                        totalAmount: totalAmount,
+                        virtualCard: VirtualCardWidget(
+                          cardNumber: _displayCardNumber,
+                          cardHolder: _displayName,
+                          expiryDate: _displayExpiry,
+                        ),
+                      )),
+>>>>>>> pr/8
                     ],
                   );
                 }
                 return Column(
                   children: [
+<<<<<<< HEAD
                     _buildOrderSummary(shareAmount),
+=======
+                    OrderSummaryWidget(
+                      totalAmount: totalAmount,
+                      virtualCard: VirtualCardWidget(
+                        cardNumber: _displayCardNumber,
+                        cardHolder: _displayName,
+                        expiryDate: _displayExpiry,
+                      ),
+                    ),
+>>>>>>> pr/8
                     const SizedBox(height: 32),
                     _buildPaymentForm(),
                   ],
@@ -227,10 +250,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ],
           ),
           const SizedBox(height: 32),
-          _buildTextField(
-            'Cardholder Name', 
-            'Aduke Morewa', 
-            _nameController, 
+          PaymentTextField(
+            label: 'Cardholder Name', 
+            hint: 'Aduke Morewa', 
+            controller: _nameController, 
             icon: Icons.person_outline,
             validator: (val) {
               if (val == null || val.trim().isEmpty) return 'Please enter the exact name on card';
@@ -238,10 +261,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
             }
           ),
           const SizedBox(height: 20),
-          _buildTextField(
-            'Card Number', 
-            '0000 0000 0000 0000', 
-            _cardNumberController, 
+          PaymentTextField(
+            label: 'Card Number', 
+            hint: '0000 0000 0000 0000', 
+            controller: _cardNumberController, 
             icon: Icons.credit_card,
             keyboardType: TextInputType.number,
             validator: (val) {
@@ -254,10 +277,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: _buildTextField(
-                  'Expiry Date', 
-                  'MM/YY', 
-                  _expiryController, 
+                child: PaymentTextField(
+                  label: 'Expiry Date', 
+                  hint: 'MM/YY', 
+                  controller: _expiryController, 
                   icon: Icons.date_range,
                   keyboardType: TextInputType.datetime,
                   validator: (val) {
@@ -268,10 +291,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               const SizedBox(width: 20),
               Expanded(
-                child: _buildTextField(
-                  'CVV', 
-                  '123', 
-                  _cvvController, 
+                child: PaymentTextField(
+                  label: 'CVV', 
+                  hint: '123', 
+                  controller: _cvvController, 
                   icon: Icons.security, 
                   obscureText: true,
                   keyboardType: TextInputType.number,
@@ -301,6 +324,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
     );
   }
+<<<<<<< HEAD
 
   Widget _buildTextField(
     String label, 
@@ -481,5 +505,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
     );
   }
+=======
+>>>>>>> pr/8
 }
 >>>>>>> pr/1
