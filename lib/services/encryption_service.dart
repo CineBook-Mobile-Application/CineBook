@@ -7,10 +7,11 @@ class EncryptionService {
   // Basic XOR cipher combined with Base64 encoding to demonstrate encrypted persistence
   static String encryptData(String plainText) {
     if (plainText.isEmpty) return plainText;
-    List<int> result = [];
-    for (int i = 0; i < plainText.length; i++) {
-      result.add(plainText.codeUnitAt(i) ^ _key.codeUnitAt(i % _key.length));
-    }
+    List<int> result = List<int>.generate(
+      plainText.length,
+      (i) => plainText.codeUnitAt(i) ^ _key.codeUnitAt(i % _key.length),
+      growable: false,
+    );
     return base64Encode(result);
   }
 
@@ -18,11 +19,11 @@ class EncryptionService {
     if (encryptedText.isEmpty) return encryptedText;
     try {
       List<int> decoded = base64Decode(encryptedText);
-      String result = '';
+      StringBuffer buffer = StringBuffer();
       for (int i = 0; i < decoded.length; i++) {
-        result += String.fromCharCode(decoded[i] ^ _key.codeUnitAt(i % _key.length));
+        buffer.writeCharCode(decoded[i] ^ _key.codeUnitAt(i % _key.length));
       }
-      return result;
+      return buffer.toString();
     } catch (e) {
       return "Decryption Error";
     }
