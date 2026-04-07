@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFF8B25F2); // Purple primary
-  static const Color secondary = Color(0xFFFFB800); // Yellow/Gold secondary
-  static const Color background = Color(0xFFF8F9FA); // Light background
+  static const Color primary = Color(0xFFA020F0); // Vibrant Purple
+  static const Color primaryDark = Color(0xFF5B0A95); // Deep Purple (Header/BG)
+  static const Color secondary = Color(0xFFFFC107); // Logo Yellow
+  static const Color background = Color(0xFFF9FAFB); // Neutral Light Background
   static const Color cardColor = Colors.white;
-  static const Color textPrimary = Color(0xFF333333);
-  static const Color textSecondary = Color(0xFF757575);
-  static const Color success = Color(0xFF4CAF50);
-  static const Color error = Color(0xFFE53935);
+  static const Color textPrimary = Color(0xFF111827); // Dark Grey/Black
+  static const Color textSecondary = Color(0xFF6B7280); // Muted Grey
+  static const Color success = Color(0xFF059669);
+  static const Color error = Color(0xFFDC2626);
 }

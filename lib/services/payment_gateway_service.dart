@@ -1,4 +1,5 @@
 import 'encryption_service.dart';
+
 import '../models/core_models.dart';
 import 'database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,11 +32,15 @@ class PaymentGatewayService {
       id: paymentRef.id,
       ticketId: ticketId,
       userId: userId,
+      authorName: name,
+      date: '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}',
+      time: '${DateTime.now().hour}:${DateTime.now().minute}',
       amount: amount,
       status: 'Success',
       encryptedCardData: encryptedData,
       timestamp: DateTime.now(),
     );
+
 
     // 5. Store encrypted record securely in Database
     await DatabaseService().savePayment(payment);

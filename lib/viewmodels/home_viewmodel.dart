@@ -5,7 +5,8 @@ import '../services/database_service.dart';
 import '../services/seed_service.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  final DatabaseService _db = DatabaseService();
+  final DatabaseService _db;
+  final SeedService _seedService;
   bool _isLoading = false;
   bool _showNowShowing = true; // Toggle for 'Now Showing' vs 'Upcoming'
   
@@ -15,8 +16,11 @@ class HomeViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get showNowShowing => _showNowShowing;
   List<Movie> get currentMovies => _allMovies.where((m) => m.isNowShowing == _showNowShowing).toList();
+  List<Movie> get nowShowingMovies => _allMovies.where((m) => m.isNowShowing).toList();
 
-  HomeViewModel() {
+  HomeViewModel({DatabaseService? databaseService, SeedService? seedService}) 
+      : _db = databaseService ?? DatabaseService(),
+        _seedService = seedService ?? SeedService() {
     _listenToMovies();
   }
 
@@ -33,7 +37,7 @@ class HomeViewModel extends ChangeNotifier {
       if (movies.isEmpty) {
         // Automatically seed the empty database!
         try {
-          await SeedService().seedDatabase();
+          await _seedService.seedDatabase();
         } catch(e) {
           print('Seed failed: $e');
         }

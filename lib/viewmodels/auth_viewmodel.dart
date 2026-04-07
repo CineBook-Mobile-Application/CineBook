@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth_service.dart';
 
 class AuthViewModel extends ChangeNotifier {
-  final AuthService _authService = AuthService();
+  final AuthService _authService;
+  
+  AuthViewModel({AuthService? authService}) : _authService = authService ?? AuthService();
   
   bool _isLoading = false;
   String? _errorMessage;
